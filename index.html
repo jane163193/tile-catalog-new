@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog Gạch Ốp Tường &amp; Lát Sàn</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+        }
+        nav {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        nav button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+        nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.5);
+        }
+        nav button.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 20px rgba(245, 87, 108, 0.5);
+        }
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .section { display: none; animation: fadeIn 0.5s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        .section-header h2 { color: #667eea; font-size: 1.8em; margin-bottom: 5px; }
+        .section-header p { color: #888; font-size: 0.95em; }
+        .subcategory { margin-bottom: 40px; }
+        .subcategory-title {
+            background: rgba(255,255,255,0.05);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .subcategory-title h3 { color: #fff; font-size: 1.2em; }
+        .subcategory-title .count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: #667eea;
+        }
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img { transform: scale(1.05); }
+        .product-card .product-id {
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+        }
+        .specs-panel {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        .specs-panel h4 { color: #667eea; margin-bottom: 15px; font-size: 1.1em; }
+        .specs-panel table { width: 100%; border-collapse: collapse; }
+        .specs-panel table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .specs-panel table td:first-child { color: #888; width: 50%; }
+        .specs-panel table td:last-child { color: #e0e0e0; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-content { max-width: 90vw; max-height: 90vh; position: relative; }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .modal-close {
+            position: absolute;
+            top: -40px; right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .modal-info {
+            color: white;
+            text-align: center;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.95);
+            border-radius: 0 0 10px 10px;
+            margin-top: -5px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+        }
+        .modal-nav:hover { background: #667eea; }
+        .modal-nav.prev { left: -70px; }
+        .modal-nav.next { right: -70px; }
+        footer {
+            background: rgba(0,0,0,0.3);
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .loading { text-align: center; padding: 40px; color: #667eea; }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            nav { padding: 10px; gap: 5px; }
+            nav button { padding: 8px 16px; font-size: 12px; }
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+            .modal-nav.prev { left: 10px; }
+            .modal-nav.next { right: 10px; }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        ::-webkit-scrollbar-thumb { background: #667eea; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #764ba2; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏠 Catalog Gạch Ốp Tường &amp; Lát Sàn</h1>
+        <p>Gạch Vân Gỗ • Gạch Đánh Bóng • Gạch Cầu Thang • Gạch Thảm • Đá Cổ • Đá Cẩm Thạch</p>
+    </header>
+
+    <nav>
+        <button class="active" data-section="wood">🪵 木纹砖</button>
+        <button data-section="glazed">✨ 抛釉系列</button>
+        <button data-section="stair">🪜 楼梯砖</button>
+        <button data-section="carpet">🟦 地毯砖</button>
+        <button data-section="castle">🏰 古堡石</button>
+        <button data-section="marble">💎 亮光砖</button>
+    </nav>
+
+    <main>
+        <!-- 木纹砖 -->
+        <section id="wood" class="section active">
+            <div class="section-header">
+                <h2>🪵 木纹砖系列 Dòng Gạch Vân Gỗ</h2>
+                <p>Gạch vân gỗ cao cấp - nhiều kích thước và mẫu mã</p>
+            </div>
+            <div class="subcategory" data-sub="wood-150x900-custom">
+                <div class="subcategory-title">
+                    <h3>📐 150x900 定制款式 Kích thước đặc biệt</h3>
+                    <span class="count">100 sản phẩm</span>
+                </div>
+                <div class="specs-panel">
+                    <h4>📋 Thông số kỹ thuật</h4>
+                    <table>
+                        <tr><td>Kích thước</td><td>150x900mm</td></tr>
+                        <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                        <tr><td>Trọng lượng</td><td>~27kg/thùng</td></tr>
+                        <tr><td>Số viên/thùng</td><td>10 viên</td></tr>
+                        <tr><td>Pallet</td><td>17 pallet x 60 thùng/pallet</td></tr>
+                        <tr><td>Đóng gói</td><td>1037 thùng (loose load)</td></tr>
+                        <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                    </table>
+                </div>
+                <div class="product-grid" data-sub="wood-150x900-custom"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-150x900-stock">
+                <div class="subcategory-title">
+                    <h3>📐 150x900 现货款式 Hàng có sẵn</h3>
+                    <span class="count">25 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>150x900mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>~27kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>10 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-150x900-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-200x1000-custom">
+                <div class="subcategory-title">
+                    <h3>📐 200x1000 定制款式 Kích thước đặc biệt</h3>
+                    <span class="count">257 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>200x1000mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>~23.5kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>6 viên</td></tr>
+                    <tr><td>Pallet</td><td>21 pallet x 54 thùng/pallet</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-200x1000-custom"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-200x1000-stock">
+                <div class="subcategory-title">
+                    <h3>📐 200x1000 现货款式 Hàng có sẵn</h3>
+                    <span class="count">33 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>200x1000mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>~23.5kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>6 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-200x1000-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-200x1200-custom">
+                <div class="subcategory-title">
+                    <h3>📐 200x1200 定制款式 Kích thước đặc biệt</h3>
+                    <span class="count">126 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>200x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>~29kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>6 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-200x1200-custom"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-200x1200-stock">
+                <div class="subcategory-title">
+                    <h3>📐 200x1200 现货款式 Hàng có sẵn</h3>
+                    <span class="count">20 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>200x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>~29kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>6 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-200x1200-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-600x1200-stock">
+                <div class="subcategory-title">
+                    <h3>📐 600x1200 现货款式 Hàng có sẵn</h3>
+                    <span class="count">24 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>600x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.8mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>43kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-600x1200-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-750x1350-stock">
+                <div class="subcategory-title">
+                    <h3>📐 750x1350 现货款式 Hàng có sẵn</h3>
+                    <span class="count">9 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>750x1350mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.8mm</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-750x1350-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-750x750-stock">
+                <div class="subcategory-title">
+                    <h3>📐 750x750 现货款式 Hàng có sẵn</h3>
+                    <span class="count">25 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>750x750mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.8mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>34.5kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="wood-750x750-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="wood-deck">
+                <div class="subcategory-title">
+                    <h3>🪵 木栈道 Ván Sàn Gỗ</h3>
+                    <span class="count">5 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="wood-deck"></div>
+            </div>
+        </section>
+
+        <!-- 抛釉系列 -->
+        <section id="glazed" class="section">
+            <div class="section-header">
+                <h2>✨ 抛釉系列 Dòng Đánh Bóng Men</h2>
+                <p>Gạch đánh bóng men cao cấp - sang trọng và tinh tế</p>
+            </div>
+            <div class="subcategory" data-sub="guang-30x60-40x80-normal">
+                <div class="subcategory-title">
+                    <h3>📐 30x60 40x80 普通 Không Mạ Vàng</h3>
+                    <span class="count">25 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="guang-30x60-40x80-normal"></div>
+            </div>
+            <div class="subcategory" data-sub="guang-30x60-40x80-gold">
+                <div class="subcategory-title">
+                    <h3>📐 30x60 40x80 镀金 Mạ Vàng</h3>
+                    <span class="count">20 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="guang-30x60-40x80-gold"></div>
+            </div>
+            <div class="subcategory" data-sub="guang-600x1200">
+                <div class="subcategory-title">
+                    <h3>📐 600x1200</h3>
+                    <span class="count">8 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="guang-600x1200"></div>
+            </div>
+        </section>
+
+        <!-- 楼梯砖 -->
+        <section id="stair" class="section">
+            <div class="section-header">
+                <h2>🪜 楼梯砖系列 Gạch Lát Cầu Thang</h2>
+                <p>Gạch chuyên dụng cho cầu thang - độ bền cao, chống trượt</p>
+            </div>
+            <div class="subcategory" data-sub="stair-300x1200x15-wood">
+                <div class="subcategory-title">
+                    <h3>📐 300x1200x15 木纹 Vân Gỗ</h3>
+                    <span class="count">10 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>300x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>15mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>35kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>0.5-3%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-300x1200x15-wood"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x12-normal">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x12 普通 Không Trang Trí</h3>
+                    <span class="count">4 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>12mm</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x12-normal"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x12-wood">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x12 木纹 Vân Gỗ</h3>
+                    <span class="count">8 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>12mm</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x12-wood"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x12-gold">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x12 镀金 Mạ Vàng</h3>
+                    <span class="count">10 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>12mm</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>3-6%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x12-gold"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x15-normal">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x15 普通 Không Trang Trí</h3>
+                    <span class="count">10 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>15mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>37kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>2 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>0.5-3%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x15-normal"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x15-gold">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x15 镀金 Mạ Vàng</h3>
+                    <span class="count">7 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>15mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>37kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>2 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>0.5-3%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x15-gold"></div>
+            </div>
+            <div class="subcategory" data-sub="stair-470x1200x18-floor">
+                <div class="subcategory-title">
+                    <h3>📐 470x1200x18 地铺 Lát Sàn</h3>
+                    <span class="count">6 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>470x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>18mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>45kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>2 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>0.5-3%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="stair-470x1200x18-floor"></div>
+            </div>
+        </section>
+
+        <!-- 地毯砖 -->
+        <section id="carpet" class="section">
+            <div class="section-header">
+                <h2>🟦 地毯砖系列 Gạch Thảm</h2>
+                <p>Gạch thảm trang trí - tạo không gian sang trọng</p>
+            </div>
+            <div class="subcategory" data-sub="carpet-600x1200">
+                <div class="subcategory-title">
+                    <h3>📐 600x1200</h3>
+                    <span class="count">10 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>600x1200mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.8mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>43kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="carpet-600x1200"></div>
+            </div>
+            <div class="subcategory" data-sub="carpet-720x900-custom">
+                <div class="subcategory-title">
+                    <h3>📐 720x900 定制 Kích thước đặc biệt</h3>
+                    <span class="count">12 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>720x900mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>41kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="carpet-720x900-custom"></div>
+            </div>
+            <div class="subcategory" data-sub="carpet-720x900-stock">
+                <div class="subcategory-title">
+                    <h3>📐 720x900 现货 Hàng có sẵn</h3>
+                    <span class="count">16 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>720x900mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.5mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>41kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>3 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="carpet-720x900-stock"></div>
+            </div>
+            <div class="subcategory" data-sub="carpet-750x1350">
+                <div class="subcategory-title">
+                    <h3>📐 750x1350</h3>
+                    <span class="count">11 sản phẩm</span>
+                </div>
+                <div class="specs-panel"><h4>📋 Thông số kỹ thuật</h4><table>
+                    <tr><td>Kích thước</td><td>750x1350mm</td></tr>
+                    <tr><td>Độ dày</td><td>9.8mm</td></tr>
+                    <tr><td>Trọng lượng</td><td>43kg/thùng</td></tr>
+                    <tr><td>Số viên/thùng</td><td>2 viên</td></tr>
+                    <tr><td>Hấp thụ nước</td><td>≤0.5%</td></tr>
+                </table></div>
+                <div class="product-grid" data-sub="carpet-750x1350"></div>
+            </div>
+        </section>
+
+        <!-- 古堡石 -->
+        <section id="castle" class="section">
+            <div class="section-header">
+                <h2>🏰 古堡石系列 Gạch Lát Đá Cổ</h2>
+                <p>Gạch đá cổ từ lâu đài - mang phong cách cổ điển châu Âu</p>
+            </div>
+            <div class="subcategory" data-sub="stone-600x1200">
+                <div class="subcategory-title">
+                    <h3>📐 600x1200</h3>
+                    <span class="count">8 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="stone-600x1200"></div>
+            </div>
+        </section>
+
+        <!-- 亮光砖 -->
+        <section id="marble" class="section">
+            <div class="section-header">
+                <h2>💎 亮光砖系列 Đá Cẩm Thạch</h2>
+                <p>Đá cẩm thạch cao cấp - vân đá tự nhiên, sang trọng</p>
+            </div>
+            <div class="subcategory" data-sub="marble-guangdong-1000x1000-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广东 1000x1000 亮光 Quảng Đông</h3>
+                    <span class="count">27 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangdong-1000x1000-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangdong-1000x1000-matte">
+                <div class="subcategory-title">
+                    <h3>🏭 广东 1000x1000 哑光 Quảng Đông</h3>
+                    <span class="count">12 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangdong-1000x1000-matte"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangdong-1200x1200-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广东 1200x1200 亮光 Quảng Đông</h3>
+                    <span class="count">24 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangdong-1200x1200-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangdong-800x800-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广东 800x800 亮光 Quảng Đông</h3>
+                    <span class="count">17 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangdong-800x800-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangxi-1000x1000-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广西 1000x1000 亮光 Quảng Tây</h3>
+                    <span class="count">22 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangxi-1000x1000-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangxi-300x600-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广西 300x600 亮光 Quảng Tây</h3>
+                    <span class="count">30 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangxi-300x600-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangxi-400x800-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广西 400x800 亮光 Quảng Tây</h3>
+                    <span class="count">23 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangxi-400x800-glossy"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangxi-600x600-matte">
+                <div class="subcategory-title">
+                    <h3>🏭 广西 600x600 哑光 Quảng Tây</h3>
+                    <span class="count">15 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangxi-600x600-matte"></div>
+            </div>
+            <div class="subcategory" data-sub="marble-guangxi-800x800-glossy">
+                <div class="subcategory-title">
+                    <h3>🏭 广西 800x800 亮光 Quảng Tây</h3>
+                    <span class="count">30 sản phẩm</span>
+                </div>
+                <div class="product-grid" data-sub="marble-guangxi-800x800-glossy"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <button class="modal-nav prev" onclick="navigateModal(-1)">‹</button>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <img id="modal-img" src="" alt="">
+            <div class="modal-info" id="modal-info"></div>
+        </div>
+        <button class="modal-nav next" onclick="navigateModal(1)">›</button>
+    </div>
+
+    <footer>
+        <p>© 2025 Tile Catalog | Gạch Ốp Tường & Lát Sàn Cao Cấp</p>
+    </footer>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('nav button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const sectionId = btn.dataset.section;
+                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Load images for this section
+                loadSectionImages(sectionId);
+            });
+        });
+
+        // Load images for a subcategory
+        async function loadSubcategoryImages(grid) {
+            const subId = grid.dataset.sub;
+            if (grid.dataset.loaded) return;
+            grid.innerHTML = '<div class="loading">Đang tải hình ảnh...</div>';
+            
+            try {
+                const response = await fetch('assets/images/images.json');
+                const allImages = await response.json();
+                const subImages = allImages.filter(img => img.sub === subId);
+                
+                if (subImages.length === 0) {
+                    grid.innerHTML = '<p style="color:#888;text-align:center;padding:40px;">Chưa có hình ảnh</p>';
+                    grid.dataset.loaded = 'true';
+                    return;
+                }
+                
+                grid.innerHTML = '';
+                subImages.forEach((img, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.onclick = () => openModal(subImages, idx);
+                    
+                    const imgEl = document.createElement('img');
+                    imgEl.dataset.src = img.src;
+                    imgEl.alt = img.id;
+                    imgEl.loading = 'lazy';
+                    
+                    const idDiv = document.createElement('div');
+                    idDiv.className = 'product-id';
+                    idDiv.textContent = img.id;
+                    
+                    card.appendChild(imgEl);
+                    card.appendChild(idDiv);
+                    grid.appendChild(card);
+                });
+                
+                grid.dataset.loaded = 'true';
+                setupLazyLoading();
+            } catch (err) {
+                console.error('Failed to load images:', err);
+                grid.innerHTML = '<p style="color:#f5576c;text-align:center;padding:40px;">Lỗi khi tải hình ảnh</p>';
+            }
+        }
+
+        function loadSectionImages(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.querySelectorAll('.product-grid[data-sub]').forEach(grid => {
+                loadSubcategoryImages(grid);
+            });
+        }
+
+        // Lazy loading
+        function setupLazyLoading() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src && !img.src) {
+                            img.src = img.dataset.src;
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '100px' });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+        }
+
+        // Modal
+        let currentImages = [], currentIndex = 0;
+
+        function openModal(images, index) {
+            currentImages = images;
+            currentIndex = index;
+            updateModalImage();
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateModalImage() {
+            document.getElementById('modal-img').src = currentImages[currentIndex].src;
+            document.getElementById('modal-info').textContent = currentImages[currentIndex].id;
+        }
+
+        function navigateModal(dir) {
+            currentIndex = (currentIndex + dir + currentImages.length) % currentImages.length;
+            updateModalImage();
+        }
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('modal').classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') navigateModal(-1);
+            if (e.key === 'ArrowRight') navigateModal(1);
+        });
+
+        // Load active section initially
+        loadSectionImages('wood');
+    </script>
+</body>
+</html>
